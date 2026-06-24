@@ -1,6 +1,5 @@
 :root {
-  font-family:
-    'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  font-family: var(--font-body);
   line-height: 1.5;
   font-weight: 400;
   color: #edf2ff;
@@ -19,6 +18,10 @@
   --text-secondary: rgba(226, 233, 245, 0.76);
   --text-muted: rgba(178, 190, 211, 0.6);
   --accent: #98ffe9;
+  --font-body: 'Aptos', 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-display: 'Aptos Display', 'Segoe UI Variable Display', 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', sans-serif;
+  --font-label: 'Bahnschrift', 'Arial Narrow', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   --mono: 'Consolas', 'SFMono-Regular', monospace;
 }
 
@@ -35,6 +38,7 @@ body {
   min-width: 320px;
   background: #04070b;
   color: var(--text-primary);
+  font-family: var(--font-body);
 }
 
 a,
@@ -56,6 +60,13 @@ h2 {
   font-weight: 500;
   letter-spacing: 0;
   color: var(--text-primary);
+  font-family: var(--font-display);
+  text-wrap: balance;
+}
+
+h3,
+strong {
+  font-family: var(--font-display);
 }
 
 h1 {
