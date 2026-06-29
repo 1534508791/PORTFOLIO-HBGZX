@@ -1034,6 +1034,19 @@ main {
   object-fit: contain;
 }
 
+.project-detail-stage img.is-loading {
+  filter: blur(10px) saturate(0.9);
+  transform: scale(1.01);
+}
+
+.project-detail-stage img.is-loaded {
+  filter: blur(0) saturate(1);
+  transform: scale(1);
+  transition:
+    filter 260ms ease,
+    transform 260ms ease;
+}
+
 .project-detail-stage video {
   background: rgba(2, 4, 8, 0.96);
 }

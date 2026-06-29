@@ -469,6 +469,39 @@ const getVideoPosterSrc = (src = '') => {
   return `/media/posters/${relativePath}`.replace(/\.(mp4|mov|webm|ogg)$/i, '.jpg')
 }
 
+function ProgressiveImage({ previewSrc, fullSrc, alt = '', className = '' }) {
+  const fallbackSrc = previewSrc || fullSrc
+  const [currentSrc, setCurrentSrc] = useState(fallbackSrc)
+  const [isLoaded, setIsLoaded] = useState(!previewSrc || previewSrc === fullSrc)
+
+  useEffect(() => {
+    if (!fullSrc || fullSrc === previewSrc) return undefined
+
+    const image = new Image()
+    image.src = fullSrc
+    image.decoding = 'async'
+    image.onload = () => {
+      setCurrentSrc(fullSrc)
+      setIsLoaded(true)
+    }
+
+    return () => {
+      image.onload = null
+    }
+  }, [previewSrc, fullSrc])
+
+  return (
+    <img
+      src={currentSrc}
+      alt={alt}
+      className={`${className} ${isLoaded ? 'is-loaded' : 'is-loading'}`.trim()}
+      loading="lazy"
+      decoding="async"
+      fetchPriority="low"
+    />
+  )
+}
+
 const GalleryAsset = ({ item, alt = '', mode = 'preview' }) => {
   if (!item) return null
 
@@ -500,10 +533,20 @@ const GalleryAsset = ({ item, alt = '', mode = 'preview' }) => {
     )
   }
 
-  const imageSrc =
-    mode === 'detail'
-      ? item.detailSrc ?? getOptimizedImageSrc(item.src)
-      : item.previewSrc ?? getPreviewImageSrc(item.src)
+  if (mode === 'detail') {
+    const previewSrc = item.previewSrc ?? getPreviewImageSrc(item.src)
+    const fullSrc = item.detailSrc ?? getOptimizedImageSrc(item.src)
+    return (
+      <ProgressiveImage
+        key={fullSrc || previewSrc}
+        previewSrc={previewSrc}
+        fullSrc={fullSrc}
+        alt={alt}
+      />
+    )
+  }
+
+  const imageSrc = item.previewSrc ?? getPreviewImageSrc(item.src)
   return <img src={imageSrc} alt={alt} loading="lazy" decoding="async" fetchPriority="low" />
 }
 
@@ -610,9 +653,9 @@ function App() {
             playsInline
             aria-hidden="true"
             preload="metadata"
-            poster="/media/posters/hero-samsung-washer.jpg"
+            poster="/media/posters/hero-samsung-washer-2026-06-29.jpg"
           >
-            <source src="/media/web/hero-samsung-washer.mp4" type="video/mp4" />
+            <source src="/media/web/hero-samsung-washer-2026-06-29.mp4" type="video/mp4" />
           </video>
 <div className="hero-scrim" aria-hidden="true" />
           <header className="site-header site-header--hero">
@@ -708,7 +751,7 @@ function App() {
                 fillOpacity={0.5}
               >
                 <div className="portrait-panel reflective-panel reflective-panel--media">
-                <img src="/media/profile-portrait.png" alt="何忠江个人形象占位图" />
+                <img src="/media/profile-portrait-2026-06-29.jpg" alt="何忠江个人头像" />
                 </div>
               </BorderGlow>
             </Reveal>
